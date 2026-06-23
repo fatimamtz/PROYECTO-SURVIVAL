@@ -1,0 +1,14 @@
+ANCHO = 800
+ALTO = 600
+
+TITULO = "Survival Legacy"
+
+FPS = 60
+
+#Colores
+VERDE = (34, 177, 76)
+BLANCO = (255, 255, 255)
+AZUL = (0, 0, 255)
+CAFE = (111, 78, 55)
+
+PERSONAJE = 40

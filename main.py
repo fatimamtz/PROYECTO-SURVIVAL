@@ -1,8 +1,12 @@
 import pygame
+import random
 from src.config.configuracion import *
 from src.entities.jugador import Jugador
 from src.world.entorno import *
 from src.world.camara import Camara
+from src.entities.enemigos import Zombie
+from src.entities.enemigos import Saqueador
+from src.entities.enemigos import Animal1
 
 pygame.init()
 
@@ -14,6 +18,35 @@ reloj = pygame.time.Clock()
 jugador = Jugador(100, 100)
 entorno = Entorno()
 camara = Camara()
+
+#Funcion para que los enemigos no aparezcan dentro de los arboles, carros y piedras
+def posicion_valida(entorno,enemigos):
+    while True:
+        x = random.randint(0,760)
+        y = random.randint(0,560)
+        rect = pygame.Rect(x+10, y+20, 15, 10)
+        valido = True
+
+        #Comprueba los arboles, piedras y carros
+        if entorno.colision(rect):
+            valido = True
+        for enemigo in enemigos:
+            if rect.colliderect(enemigo.rect):
+                valido = False
+                break
+        if valido:
+            return x,y
+        
+enemigos = []
+for i in range(8):
+    x,y = posicion_valida(entorno,enemigos)
+    enemigos.append(Zombie(x,y))
+for i in range(4):
+    x,y = posicion_valida(entorno,enemigos)
+    enemigos.append(Saqueador(x,y))
+for i in range(7):
+    x,y = posicion_valida(entorno,enemigos)
+    enemigos.append(Animal1(x,y))
 
 ejecutando = True
 
@@ -82,11 +115,20 @@ while ejecutando:
         elif jugador.direccion == "izquierda":
             jugador.imagen_actual = jugador.caminar_izquierda[0]
         elif jugador.direccion == "arriba":
-            jugador.imagen_actual == jugador.caminar_arriba[0]
+            jugador.imagen_actual = jugador.caminar_arriba[0]
+
+    pantalla.fill((0,0,0))
 
     camara.actualizar(jugador)
     entorno.draw(pantalla, camara)
     jugador.draw(pantalla, camara)
+
+    for enemigo in enemigos:
+        enemigo.mover(jugador,entorno,enemigos)
+        enemigo.atacar(jugador)
+    #dibuja los enemigos en la pantalla
+    for enemigo in enemigos:
+        enemigo.draw(pantalla,camara)
 
     pygame.display.flip()
 

@@ -7,8 +7,9 @@ class Entorno:
         self.alto_mundo = 5000
 
         self.arboles = []
-        self.piedra=[]
-        self.hierro=[]
+        self.piedra = []
+        self.hierro = []
+        self.arbusto = []
         #texturas
         self.imagen_piedra=pygame.image.load(
             "img/objetos/piedra.png"
@@ -39,6 +40,14 @@ class Entorno:
             self.imagen_arboles,
             (50,100)
         )
+        self.imagen_arbusto=pygame.image.load(
+             "img/objetos/arbusto.png"
+        )
+        self.imagen_arbusto=pygame.transform.scale(
+             self.imagen_arbusto,
+             (25,50)
+        )
+        
         for i in range(200):
 
             while True:
@@ -88,6 +97,22 @@ class Entorno:
                 if valido:
                  self.hierro.append((x, y))
                 break
+        
+        for i in range(40):
+            while True:
+                x = random.randint(0, self.ancho_mundo)
+                y = random.randint(0, self.alto_mundo)
+                valido = True
+
+                #No cerca de otros arbustos
+                for ax, ay in self.arbusto:
+                    if abs(x - ax) < 100 and abs(y - ay) < 100:
+                        valido = False
+                        break
+                
+                if valido:
+                     self.arbusto.append((x,y))
+                     break
 
     def draw(self, pantalla, camara):
         pantalla.blit(
@@ -98,8 +123,7 @@ class Entorno:
             pantalla.blit(
                     self.imagen_piedra,
                     (x - camara.x, y - camara.y)
-                
-            )
+                )
         for x, y in self.hierro:
                 pantalla.blit(
                     self.imagen_hierro,
@@ -109,7 +133,12 @@ class Entorno:
                  pantalla.blit(
                     self.imagen_arboles,
                     (x - camara.x, y - camara.y)
-             )
+                )
+        for x, y in self.arbusto:
+                 pantalla.blit(
+                     self.imagen_arbusto,
+                     (x - camara.x, y - camara.y)
+                 )
              
     def colision(self, rect_jugador):
         for x,y in self.arboles:
@@ -141,7 +170,18 @@ class Entorno:
                     )
                 if rect_jugador.colliderect(hierro_rect):
                     return True
+
+        for x,y in self.arbusto:
+                arbusto_rect = pygame.Rect(
+                    x+12,
+                    y+28,
+                    95,
+                    35
+                    )
+                if rect_jugador.colliderect(arbusto_rect):
+                     return True
         return False
+                
    
     def per_rect(self, dx=0, dy=0):
        return pygame.Rect(
@@ -150,3 +190,10 @@ class Entorno:
         20,
         15
        )
+    def zombies_rect(self, dx=0, dy=0):
+        return pygame.Rect(
+            self.x + dx + 10,
+            self.y + dy + 25,
+            20,
+            15
+        ) 

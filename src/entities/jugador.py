@@ -17,10 +17,16 @@ class Jugador:
         self.velocidad = 2
         self.danio = 10
 
+        #Sistema de combate
+        #self.contador_golpes = 0
+        #self.golpes_critico = 4
+        #self.danio_critico = 25
+
         self.inventario = []
 
         # Tamaño
         self.size = 32
+        self.rect = pygame.Rect(self.x, self.y, self.size,self.size)
 
         # Dirección actual
         self.direccion = "abajo"
@@ -109,6 +115,9 @@ class Jugador:
         self.x += dx
         self.y += dy
 
+        self.rect.x = self.x
+        self.rect.y = self.y
+
     def per_rect(self, dx, dy):
         return pygame.Rect(
             self.x + dx,
@@ -129,8 +138,13 @@ class Jugador:
             self.energia + 0.05
         )
 
-    def atacar(self, enemigo):
-        enemigo.recibir_dano(self.danio)
+    #def atacar(self, enemigo):
+     #   self.contador_golpes += 1
+     #   if self.contador_golpes >= self.golpes_critico:
+      #      enemigo.recibir_dano(self.danio_critico)
+      #      self.contador_golpes = 0
+       # else:
+        #    enemigo.recibir_dano(self.danio)
 
     def recibir_dano(self, dano):
         self.vida -= dano

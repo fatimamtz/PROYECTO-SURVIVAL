@@ -55,21 +55,20 @@ class Enemigos:
                 self.rect.x=int(self.x+10)
                 self.rect.y=int(self.y+20)
 
-            
-
     def atacar(self, jugador):
         if self.rect.colliderect(jugador.rect):
             jugador.recibir_dano(self.danio)
 
     def recibir_dano(self, dano):
         self.hp_actual -= dano
+        if self.hp_actual <= 0:
+            self.morir()
 
     def morir(self):
         return self.hp_actual <= 0
 
     def draw(self, pantalla, camara):
         pantalla.blit(self.imagen,(self.x - camara.x, self.y - camara.y))
-
 
 class Zombie(Enemigos):
     def __init__(self, x, y):

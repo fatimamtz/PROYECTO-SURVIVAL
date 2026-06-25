@@ -9,7 +9,8 @@ class Jugador:
         self.y = y
 
         # Atributos
-        self.vida = 100
+        self.hp_max = 100
+        self.hp_actual = 100
         self.energia = 100
         self.nivel = 1
         self.experiencia = 0
@@ -18,9 +19,9 @@ class Jugador:
         self.danio = 10
 
         #Sistema de combate
-        #self.contador_golpes = 0
-        #self.golpes_critico = 4
-        #self.danio_critico = 25
+        self.contador_golpes = 0
+        self.golpes_critico = 4
+        self.danio_critico = 25
 
         self.inventario = []
 
@@ -128,8 +129,8 @@ class Jugador:
 
     def correr(self):
         if self.energia > 0:
-            self.energia -= 0.1
-            return self.velocidad * 1
+            self.energia = max(0, self.energia - 0.1)
+            return self.velocidad * 1.5
         return self.velocidad
 
     def recuperar_energia(self):
@@ -138,16 +139,18 @@ class Jugador:
             self.energia + 0.05
         )
 
-    #def atacar(self, enemigo):
-     #   self.contador_golpes += 1
-     #   if self.contador_golpes >= self.golpes_critico:
-      #      enemigo.recibir_dano(self.danio_critico)
-      #      self.contador_golpes = 0
-       # else:
-        #    enemigo.recibir_dano(self.danio)
+    def atacar(self, enemigo):
+        self.contador_golpes += 1
+        if self.contador_golpes >= self.golpes_critico:
+            enemigo.recibir_dano(self.danio_critico)
+            self.contador_golpes = 0
+        else:
+               enemigo.recibir_dano(self.danio)
 
-    def recibir_dano(self, dano):
-        self.vida -= dano
+    def recibir_danio(self,danio):
+        self.hp_actual -= danio
+        if self.hp_actual < 0:
+           self.hp_actual = 0
 
     def talar_arbol(self, arbol):
         self.energia -= 5

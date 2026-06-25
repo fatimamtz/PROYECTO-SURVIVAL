@@ -57,11 +57,13 @@ class Enemigos:
 
     def atacar(self, jugador):
         if self.rect.colliderect(jugador.rect):
-            jugador.recibir_dano(self.danio)
+            jugador.recibir_danio(self.danio)
 
-    def recibir_dano(self, dano):
-        self.hp_actual -= dano
+    def recibir_danio(self, danio):
+        self.hp_actual -= danio
         if self.hp_actual <= 0:
+            if self.hp_actual < 0:
+                self.hp_actual = 0
             self.morir()
 
     def morir(self):
@@ -78,9 +80,9 @@ class Zombie(Enemigos):
         super().__init__(
             x=x,
             y=y,
-            vida=100,
-            danio=10,
-            velocidad=1,
+            vida = 100,
+            danio = 10,
+            velocidad = 1,
             imagen=imagen
         )
 
@@ -99,9 +101,9 @@ class Saqueador(Enemigos):
         super().__init__(
             x=x,
             y=y,
-            vida=100,
-            danio=10,
-            velocidad=1,
+            vida = 100,
+            danio = 10,
+            velocidad = 1,
             imagen=imagen
         )
 
@@ -120,9 +122,9 @@ class Animal1(Enemigos):
         super().__init__(
             x=x,
             y=y,
-            vida=100,
-            danio=10,
-            velocidad=1,
+            vida = 100,
+            danio = 10,
+            velocidad = 1,
             imagen=imagen
         )
 

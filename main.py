@@ -7,6 +7,7 @@ from src.world.camara import Camara
 from src.entities.enemigos import Zombie
 from src.entities.enemigos import Saqueador
 from src.entities.enemigos import Animal1
+from src.UI.hud import Hud
 
 pygame.init()
 
@@ -15,6 +16,7 @@ pygame.display.set_caption(TITULO)
 
 reloj = pygame.time.Clock()
 
+hud = Hud()
 jugador = Jugador(100, 100)
 entorno = Entorno()
 camara = Camara()
@@ -29,7 +31,7 @@ def posicion_valida(entorno,enemigos):
 
         #Comprueba los arboles, piedras y carros
         if entorno.colision(rect):
-            valido = True
+            valido = False
         for enemigo in enemigos:
             if rect.colliderect(enemigo.rect):
                 valido = False
@@ -116,7 +118,7 @@ while ejecutando:
             jugador.imagen_actual = jugador.caminar_izquierda[0]
         elif jugador.direccion == "arriba":
             jugador.imagen_actual = jugador.caminar_arriba[0]
-
+    
     pantalla.fill((0,0,0))
 
     camara.actualizar(jugador)
@@ -129,6 +131,8 @@ while ejecutando:
     #dibuja los enemigos en la pantalla
     for enemigo in enemigos:
         enemigo.draw(pantalla,camara)
+    
+    hud.draw(pantalla, jugador)
 
     pygame.display.flip()
 

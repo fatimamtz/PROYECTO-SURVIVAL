@@ -8,7 +8,7 @@ from src.entities.enemigos import Zombie
 from src.entities.enemigos import Saqueador
 from src.entities.enemigos import Animal1
 from src.UI.hud import Hud
-
+from src.UI.inventario import Inventario
 pygame.init()
 
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
@@ -17,7 +17,11 @@ pygame.display.set_caption(TITULO)
 reloj = pygame.time.Clock()
 
 hud = Hud()
+#se agrego el inventario provisional
+inventario = Inventario()
+
 jugador = Jugador(100, 100)
+jugador.inventario.append("madera")
 entorno = Entorno()
 camara = Camara()
 
@@ -60,6 +64,11 @@ while ejecutando:
 
         if evento.type == pygame.QUIT:
             ejecutando = False
+        
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_e:
+                inventario.toggle()
+
 
     teclas = pygame.key.get_pressed()
 
@@ -133,6 +142,11 @@ while ejecutando:
         enemigo.draw(pantalla,camara)
     
     hud.draw(pantalla, jugador)
+
+    inventario.draw(
+        pantalla,
+        jugador.inventario
+    )
 
     pygame.display.flip()
 

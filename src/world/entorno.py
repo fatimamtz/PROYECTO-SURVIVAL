@@ -12,14 +12,14 @@ class Entorno:
         self.arbusto = []
         #texturas
         self.imagen_piedra=pygame.image.load(
-            "img/objetos/piedra.png"
+            "PROYECTO-SURVIVAL/img/objetos/piedra.png"
         )
         self.imagen_piedra=pygame.transform.scale(
             self.imagen_piedra,
             (35,35)
         )
         self.imagen_hierro=pygame.image.load(
-            "img/objetos/carro_destruido.png"
+            "PROYECTO-SURVIVAL/img/objetos/carro_destruido.png"
         )
         self.imagen_hierro=pygame.transform.scale(
             self.imagen_hierro,
@@ -27,21 +27,21 @@ class Entorno:
         )
     
         self.pasto=pygame.image.load(
-            "img/objetos/pasto.png"
+            "PROYECTO-SURVIVAL/img/objetos/pasto.png"
         )
         self.pasto=pygame.transform.scale(
             self.pasto,
             (800,600)
         )
         self.imagen_arboles=pygame.image.load(
-            "img/objetos/arboles.png"
+            "PROYECTO-SURVIVAL/img/objetos/arboles.png"
         )
         self.imagen_arboles=pygame.transform.scale(
             self.imagen_arboles,
             (50,100)
         )
         self.imagen_arbusto=pygame.image.load(
-             "img/objetos/arbusto.png"
+             "PROYECTO-SURVIVAL/img/objetos/arbusto.png"
         )
         self.imagen_arbusto=pygame.transform.scale(
              self.imagen_arbusto,

@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Enemigos:
-    def __init__(self, x, y, vida, danio, velocidad, imagen):
+    def __init__(self, x, y, vida, danio, velocidad, imagen, cooldown_ataque):
         self.x = x
         self.y = y
 
@@ -18,6 +18,10 @@ class Enemigos:
             15,
             10
         )
+
+        #Coldown de ataque
+        self.cooldown_ataque = cooldown_ataque
+        self.tiempo_desde_ultimo_golpe = cooldown_ataque
 
     def distancia_jugador(self, jugador):
         dx = jugador.x - self.x
@@ -56,8 +60,12 @@ class Enemigos:
                 self.rect.y=int(self.y+20)
 
     def atacar(self, jugador):
+        self.tiempo_desde_ultimo_golpe += 1
+
         if self.rect.colliderect(jugador.rect):
-            jugador.recibir_danio(self.danio)
+            if self.tiempo_desde_ultimo_golpe >= self.cooldown_ataque:
+                jugador.recibir_danio(self.danio)
+                self.tiempo_desde_ultimo_golpe = 0
 
     def recibir_danio(self, danio):
         self.hp_actual -= danio
@@ -74,7 +82,7 @@ class Enemigos:
 
 class Zombie(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("img/entidades/zombie.png").convert_alpha()
+        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/zombie.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (35, 30))
 
         super().__init__(
@@ -83,7 +91,8 @@ class Zombie(Enemigos):
             vida = 100,
             danio = 10,
             velocidad = 1,
-            imagen=imagen
+            imagen=imagen,
+            cooldown_ataque = 60
         )
 
     def zombie_rect(self, dx=0, dy=0):
@@ -95,7 +104,7 @@ class Zombie(Enemigos):
         )
 class Saqueador(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("img/entidades/saqueador.png").convert_alpha()
+        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/saqueador.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (35, 30))
 
         super().__init__(
@@ -104,7 +113,8 @@ class Saqueador(Enemigos):
             vida = 100,
             danio = 10,
             velocidad = 1,
-            imagen=imagen
+            imagen=imagen,
+            cooldown_ataque = 45
         )
 
     def saqueador_rect(self, dx=0, dy=0):
@@ -116,7 +126,7 @@ class Saqueador(Enemigos):
         )
 class Animal1(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("img/entidades/animal1.png").convert_alpha()
+        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/animal1.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (40, 40))
 
         super().__init__(
@@ -125,7 +135,8 @@ class Animal1(Enemigos):
             vida = 100,
             danio = 10,
             velocidad = 1,
-            imagen=imagen
+            imagen=imagen,
+            cooldown_ataque = 75
         )
 
     def animal1_rect(self, dx=0, dy=0):

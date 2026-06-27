@@ -34,7 +34,7 @@ class Jugador:
 
         # Spritesheet
         self.sprite_sheet = pygame.image.load(
-            "img/personaje/personaje.png"
+            "PROYECTO-SURVIVAL/img/personaje/personaje.png"
         ).convert_alpha()
 
         # Animación

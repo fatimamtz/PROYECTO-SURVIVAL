@@ -142,10 +142,10 @@ class Jugador:
     def atacar(self, enemigo):
         self.contador_golpes += 1
         if self.contador_golpes >= self.golpes_critico:
-            enemigo.recibir_dano(self.danio_critico)
+            enemigo.recibir_danio(self.danio_critico)
             self.contador_golpes = 0
         else:
-               enemigo.recibir_dano(self.danio)
+               enemigo.recibir_danio(self.danio)
 
     def recibir_danio(self,danio):
         self.hp_actual -= danio

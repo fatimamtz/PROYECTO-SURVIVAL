@@ -70,7 +70,14 @@ while ejecutando:
                 inventario.toggle()
 
 
+    
     teclas = pygame.key.get_pressed()
+    if teclas[pygame.K_SPACE]:
+        rango_ataque = jugador.rect.inflate(20, 20)
+        for enemigo in enemigos:
+            if rango_ataque.colliderect(enemigo.rect):
+                jugador.atacar(enemigo)
+                break
 
     if teclas[pygame.K_LSHIFT]:
         velocidad = jugador.correr()
@@ -137,6 +144,7 @@ while ejecutando:
     for enemigo in enemigos:
         enemigo.mover(jugador,entorno,enemigos)
         enemigo.atacar(jugador)
+    enemigos = [enemigo for enemigo in enemigos if not enemigo.morir()]  # Elimina enemigos muertos de la lista
     #dibuja los enemigos en la pantalla
     for enemigo in enemigos:
         enemigo.draw(pantalla,camara)

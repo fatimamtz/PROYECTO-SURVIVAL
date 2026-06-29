@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Enemigos:
-    def __init__(self, x, y, vida, danio, velocidad, imagen, cooldown_ataque):
+    def __init__(self, x, y, vida, danio, velocidad, imagen, cooldown_ataque, experiencia=10):
         self.x = x
         self.y = y
 
@@ -22,7 +22,8 @@ class Enemigos:
         #Coldown de ataque
         self.cooldown_ataque = cooldown_ataque
         self.tiempo_desde_ultimo_golpe = cooldown_ataque
-
+        self.experiencia = experiencia
+        
     def distancia_jugador(self, jugador):
         dx = jugador.x - self.x
         dy = jugador.y - self.y

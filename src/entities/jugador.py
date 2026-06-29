@@ -140,6 +140,10 @@ class Jugador:
         )
 
     def atacar(self, enemigo):
+        if self.energia <= 0:
+            return
+        self.energia = max(0, self.energia - 5)
+        
         self.contador_golpes += 1
         if self.contador_golpes >= self.golpes_critico:
             enemigo.recibir_danio(self.danio_critico)
@@ -159,6 +163,13 @@ class Jugador:
     def picar_piedra(self, roca):
         self.energia -= 5
         self.experiencia += 10
+
+    def ganar_experiencia(self, cantidad):
+        self.experiencia += cantidad
+        xp_necesaria = 100
+        while self.experiencia >= xp_necesaria:
+            self.experiencia -= xp_necesaria
+            self.nivel += 1
 
     def draw(self, pantalla, camara):
 

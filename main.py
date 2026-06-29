@@ -142,6 +142,8 @@ while ejecutando:
     jugador.draw(pantalla, camara)
 
     for enemigo in enemigos:
+        if enemigo.morir():
+            jugador.ganar_experiencia(enemigo.experiencia)
         enemigo.mover(jugador,entorno,enemigos)
         enemigo.atacar(jugador)
     enemigos = [enemigo for enemigo in enemigos if not enemigo.morir()]  # Elimina enemigos muertos de la lista

@@ -83,7 +83,7 @@ class Enemigos:
 
 class Zombie(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/zombie.png").convert_alpha()
+        imagen = pygame.image.load("img/entidades/zombie.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (35, 30))
 
         super().__init__(
@@ -105,7 +105,7 @@ class Zombie(Enemigos):
         )
 class Saqueador(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/saqueador.png").convert_alpha()
+        imagen = pygame.image.load("img/entidades/saqueador.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (35, 30))
 
         super().__init__(
@@ -127,7 +127,7 @@ class Saqueador(Enemigos):
         )
 class Animal1(Enemigos):
     def __init__(self, x, y):
-        imagen = pygame.image.load("PROYECTO-SURVIVAL/img/entidades/animal1.png").convert_alpha()
+        imagen = pygame.image.load("img/entidades/animal1.png").convert_alpha()
         imagen = pygame.transform.scale(imagen, (40, 40))
 
         super().__init__(

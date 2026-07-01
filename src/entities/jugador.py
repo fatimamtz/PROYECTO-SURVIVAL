@@ -1,4 +1,5 @@
 import pygame
+from src.UI.armas as armas 
 
 class Jugador:
 
@@ -23,18 +24,23 @@ class Jugador:
         self.golpes_critico = 4
         self.danio_critico = 25
 
-        self.inventario = []
+        self.inventario = {}
 
         # Tamaño
         self.size = 32
-        self.rect = pygame.Rect(self.x, self.y, self.size,self.size)
+        self.rect = pygame.Rect(
+        self.x + 8, 
+        self.y + 20,
+        16,
+        12
+        )
 
         # Dirección actual
         self.direccion = "abajo"
 
         # Spritesheet
         self.sprite_sheet = pygame.image.load(
-            "PROYECTO-SURVIVAL/img/personaje/personaje.png"
+            "img/personaje/personaje.png"
         ).convert_alpha()
 
         # Animación
@@ -116,8 +122,8 @@ class Jugador:
         self.x += dx
         self.y += dy
 
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.rect.x = self.x + 8
+        self.rect.y = self.y + 20
 
     def per_rect(self, dx, dy):
         return pygame.Rect(
@@ -156,20 +162,48 @@ class Jugador:
         if self.hp_actual < 0:
            self.hp_actual = 0
 
-    def talar_arbol(self, arbol):
+    def talar_arboles(self, arboles):
         self.energia -= 5
-        self.experiencia += 10
+        if arboles.recibir_dano(self.danio):
+          self.experiencia += 10
+          self.inventario["madera"]=(
+            self.inventario.get("madera",0)+1
+        )
 
-    def picar_piedra(self, roca):
+    def picar_piedra(self, piedra):
         self.energia -= 5
-        self.experiencia += 10
+        if piedra.recibir_dano(self.danio):
+         self.experiencia += 10
+         self.inventario["piedra"]=(
+          self.inventario.get("piedra",0)+1
+        )
+    def picar_metal(self, metal):
+        self.energia -= 8
+        if metal.recibir_dano(self.danio):
+         self.experiencia += 15
+         self.inventario["metal"]=(
+          self.inventario.get("metal",0)+1
+        )
+    def recolectar_palos(self, palos):
+        self.energia -= 2
+        if palos.recibir_dano(self.danio):
+          self.experiencia += 4
+          self.inventario["palos"]=(
+           self.inventario.get("palos",0)+1
+        )    
+    def obtener_area_interaccion(self):
 
-    def ganar_experiencia(self, cantidad):
-        self.experiencia += cantidad
-        xp_necesaria = 100
-        while self.experiencia >= xp_necesaria:
-            self.experiencia -= xp_necesaria
-            self.nivel += 1
+     if self.direccion == "arriba":
+        return pygame.Rect(self.x, self.y - 20, 32, 20)
+
+     elif self.direccion == "abajo":
+        return pygame.Rect(self.x, self.y + 32, 32, 20)
+
+     elif self.direccion == "izquierda":
+        return pygame.Rect(self.x - 20, self.y, 20, 32)
+
+     elif self.direccion == "derecha":
+        return pygame.Rect(self.x + 32, self.y, 20, 32)
 
     def draw(self, pantalla, camara):
 
@@ -180,3 +214,9 @@ class Jugador:
                 self.y - camara.y
             )
         )
+    def ganar_experiencia(self, cantidad):
+         self.experiencia += cantidad
+
+         while self.experiencia >= 100:
+          self.experiencia -= 100
+          self.nivel += 1

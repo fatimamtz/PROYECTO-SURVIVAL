@@ -21,7 +21,7 @@ hud = Hud()
 inventario = Inventario()
 
 jugador = Jugador(100, 100)
-jugador.inventario.append("madera")
+
 entorno = Entorno()
 camara = Camara()
 
@@ -68,6 +68,38 @@ while ejecutando:
         if evento.type == pygame.KEYDOWN:
             if evento.key == pygame.K_e:
                 inventario.toggle()
+            
+            elif evento.key == pygame.K_f:
+
+              area = jugador.obtener_area_interaccion()
+
+        # Árboles
+              for arboles in entorno.arboles[:]:
+                   if area.colliderect(arboles.rect):
+                     jugador.talar_arboles(arboles)
+                     if arboles.vida <=0:
+                         entorno.arboles.remove(arboles)
+
+        # Piedras
+              for piedra in entorno.piedra[:]:
+                   if area.colliderect(piedra.rect):
+                     jugador.picar_piedra(piedra)
+                     if piedra.vida <=0:
+                         entorno.piedra.remove(piedra)
+
+        # Hierro
+              for hierro in entorno.hierro[:]:
+                    if area.colliderect(hierro.rect):
+                     jugador.picar_metal(hierro)
+                     if hierro.vida <=0:
+                         entorno.hierro.remove(hierro)
+
+        # Arbustos
+              for arbusto in entorno.arbusto[:]:
+                   if area.colliderect(arbusto.rect):
+                     jugador.recolectar_palos(arbusto)
+                     if arbusto.vida <=0:
+                         entorno.arbusto.remove(arbusto)
 
 
     
@@ -155,7 +187,7 @@ while ejecutando:
 
     inventario.draw(
         pantalla,
-        jugador.inventario
+        jugador
     )
 
     pygame.display.flip()
